@@ -1,7 +1,6 @@
 # script.py
 import pickle
 import flask
-import requests
 
 def vulnerable_function(data):
     # Ejemplo de deserialización insegura (simulación)
