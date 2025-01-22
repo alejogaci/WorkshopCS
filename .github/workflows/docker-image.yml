@@ -25,6 +25,18 @@ jobs:
         username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+    - name: Download Artifact Scanner
+      run: |
+        wget https://cli.artifactscan.cloudone.trendmicro.com/tmas-cli/latest/tmas-cli_Linux_x86_64.tar.gz
+        tar -xzvf tmas-cli_Linux_x86_64.tar.gz
+
+    - name: Image Scanning
+      env:
+        TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}
+      run: |
+        ./tmas scan workshop-container:latest -VMS --saveSBOM > results.json
+
+
     - name: Push
       run: |
         docker tag workshop-container:latest alejogaci/workshop-container:latest
