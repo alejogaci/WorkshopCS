@@ -35,7 +35,18 @@ jobs:
         TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}
       run: |
         ./tmas scan docker:workshop-container:latest -VMS --saveSBOM > results.json
+
+    - name: Upload Json as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: generated-json
+        path: results.json  
         
+    - name: Checking Vulnerabilities Scan Results
+      run: |
+        cat results.json | jq '.vulnerabilities | { totalVulnCount, criticalCount, highCount, mediumCount, lowCount, negligibleCount, unknownCount } | to_entries | .[] | "\(.key): \(.value)"'
+        cat results.json | jq '.vulnerabilities.criticalCount < 1 and .vulnerability.highCount < 10 and .vulnerability.mediumCount < 30' | grep -q false && { echo "No se cumple con los criterios de vulnerabilidades. Deteniendo el pipeline."; exit 1; } || echo "Se cumple con los criterios de vulnerabilidades. Continuando con el pipeline."
+
 
     - name: Push
       run: |
