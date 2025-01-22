@@ -34,7 +34,7 @@ jobs:
       env:
         TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}
       run: |
-        ./tmas scan workshop-container:latest -VMS --saveSBOM > results.json
+        ./tmas scan docker:workshop-container:latest -VMS --saveSBOM > results.json
 
 
     - name: Push
