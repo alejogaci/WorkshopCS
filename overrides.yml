@@ -1,0 +1,11 @@
+vulnerabilities:
+  # This is the full set of supported rule fields:
+  - rule:
+      vulnerability: CVE-2019-17006
+      fixState: unknown
+      package:
+        name: libnss3
+        version: 2:3.17.2-1.1+deb8u2
+        type: deb
+        location: "/usr/share/doc/libnss3/copyright"
+    reason: La libreria no tiene un fix disponible
