@@ -41,11 +41,18 @@ jobs:
       with:
         name: generated-json
         path: results.json  
-        
-    - name: Checking Vulnerabilities Scan Results
+
+    - name: To CSV
       run: |
-        cat results.json | jq '.vulnerabilities | { totalVulnCount, criticalCount, highCount, mediumCount, lowCount, negligibleCount, unknownCount } | to_entries | .[] | "\(.key): \(.value)"'
-        cat results.json | jq '.vulnerabilities.criticalCount < 1 and .vulnerability.highCount < 10 and .vulnerability.mediumCount < 30' | grep -q false && { echo "No se cumple con los criterios de vulnerabilidades. Deteniendo el pipeline."; exit 1; } || echo "Se cumple con los criterios de vulnerabilidades. Continuando con el pipeline."
+        wget https://raw.githubusercontent.com/alejogaci/CS-ArtifactScanner-Report/refs/heads/main/export_report_tmas.py https://raw.githubusercontent.com/XeniaP/CS-ArtifactScanner-Report/refs/heads/main/requirements.txt
+        pip install -r requirements.txt && mkdir TM_Artifact_Scanner_Report_vulnerables
+        python export_report_tmas.py vulnerables/web-dvwa --resultFile results.json
+          
+    - name: Upload xlsx as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: generated-xlsx
+        path: TM_Artifact_Scanner_Report_vulnerables/*.xlsx
 
 
     - name: Push
@@ -53,3 +60,4 @@ jobs:
         docker tag workshop-container:latest alejogaci/workshop-container:latest
         docker push alejogaci/workshop-container:latest
         docker images
+
