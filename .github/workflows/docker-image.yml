@@ -34,7 +34,7 @@ jobs:
       env:
         TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}
       run: |
-        ./tmas scan registry:alejogaci/workshop-container:latest@sha256:c4db436a51d9bcdb91778ae6c25eb17185458ce20ae82877f321855d236f2634 -VMS --saveSBOM > results.json --override overrides.yml
+        ./tmas scan registry:alejogaci/workshop-container:latest@sha256:5842fcc326b1b679b9278a00f8e711e65f654f0bc36bf40f6fb8c64da2703885 -VMS --saveSBOM > results.json --override overrides.yml
 
     - name: Upload Json as Artifact
       uses: actions/upload-artifact@v4
@@ -85,6 +85,6 @@ jobs:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         run: |
           echo "${{ secrets.COSIGN_KEY }}" > cosign.key
-          cosign sign --key cosign.key --yes --tlog-upload=false alejogaci/workshop-container:latest@sha256:c4db436a51d9bcdb91778ae6c25eb17185458ce20ae82877f321855d236f2634
+          cosign sign --key cosign.key --yes --tlog-upload=false alejogaci/workshop-container:latest@sha256:5842fcc326b1b679b9278a00f8e711e65f654f0bc36bf40f6fb8c64da2703885
 
 
