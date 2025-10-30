@@ -37,7 +37,7 @@ jobs:
         ./tmas scan docker:workshop-container:latest -VMS --saveSBOM > results.json --override overrides.yml
 
     - name: Upload Json as Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: generated-json
         path: results.json  
