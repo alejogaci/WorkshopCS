@@ -34,7 +34,7 @@ jobs:
       env:
         TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}
       run: |
-        ./tmas scan docker:workshop-container:latest -VMS --saveSBOM > results.json --override overrides.yml
+        ./tmas scan registry:alejogaci/workshop-container:latest@sha256:7a837351b4532b4808e1314d10c4dc80c45613c5f85c2fc72eaf0d98e4dcf39f -VS --saveSBOM > results.json --override overrides.yml
 
     - name: Upload Json as Artifact
       uses: actions/upload-artifact@v4
@@ -76,7 +76,7 @@ jobs:
 
       - name: Log in to GitHub Container Registry
         run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Sign image with Cosign (Key-based)
         env:
